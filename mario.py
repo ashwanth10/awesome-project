@@ -191,6 +191,8 @@ class Game(object):
         self.collide_group = pg.sprite.Group(self.ground_group,
                                              self.pipe_group,
                                              self.step_group)
+        self.background = setup.GFX['level_1']
+        self.back_rect = self.background.get_rect()
         self.back_rect.x = 0
         self.back_rect.y = 0
         self.background = pg.transform.scale(self.background,
@@ -224,7 +226,6 @@ class Game(object):
                 self.y_vel = self.jump_vel
         else:
             self.state = c.STAND
-            
 
     def walking(self, keys, current_time):
         """It changes the frame, checks for holding down the run button,
@@ -241,14 +242,6 @@ class Game(object):
         self.frame_index = 4
         self.gravity = c.JUMP_GRAVITY
         self.y_vel += self.gravity
-    
-    def setup_checkpoints(self):
-        self.check_point1 = False
-        self.check_point2 = False
-        self.check_point3 = False
-        self.check_point4 = False
-        self.check_point5 = False
-        self.check_point6 = False
     
     def check_to_allow_jump(self, keys):
         if not keys[pg.K_a]:
@@ -309,9 +302,27 @@ class Game(object):
                 self.draw()
             #actually flip Surface buffer
             pygame.display.flip()
+            
+    def setup_enemy(self, x, y, direction, name, setup_frames):
+        self.sprite_sheet = setup.GFX['smb_enemies_sheet']
+        self.frames = []
+        self.frame_index = 0
 
     def quit(self):
         sys.exit()
+     
+
+class Goomba(Enemy):
+
+    def __init__(self, x, y, direction, name):
+        Enemy.__init__(self)
+        self.setup_enemy(x, y, direction, name, self.setup_frames)
+     
+class Koopa(Enemy):
+
+    def __init__(self, x, y, direction, name):
+        Enemy.__init__(self)
+        self.setup_enemy(x, y, direction, name, self.setup_frames)
 
 
 if __name__ == "__main__":
