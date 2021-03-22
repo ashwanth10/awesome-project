@@ -1,6 +1,9 @@
-# Super Mario Implementation in Python
+# Implementation in Python
 
-This is inspired by Meth-Meth-Method's [super mario game](https://github.com/meth-meth-method/super-mario/)
+[![Build Status](https://ci.jenkins.io/job/Plugins/job/accurev-plugin/job/master/badge/icon)](https://ci.jenkins.io/job/Plugins/job/accurev-plugin/job/master/)
+[![Jenkins Plugin](https://img.shields.io/jenkins/plugin/v/accurev.svg)](https://plugins.jenkins.io/accurev)
+[![GitHub release](https://img.shields.io/github/release/jenkinsci/accurev-plugin.svg?label=changelog)](https://github.com/jenkinsci/accurev-plugin/releases/latest)
+[![Jenkins Plugin Installs](https://img.shields.io/jenkins/plugin/i/accurev.svg?color=blue)](https://plugins.jenkins.io/accurev)
 
 ## Running
 
