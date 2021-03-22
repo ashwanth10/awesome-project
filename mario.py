@@ -302,50 +302,9 @@ class Game(object):
                 self.draw()
             #actually flip Surface buffer
             pygame.display.flip()
-            
-    def setup_enemy(self, x, y, direction, name, setup_frames):
-        self.sprite_sheet = setup.GFX['smb_enemies_sheet']
-        self.frames = []
-        self.frame_index = 0
 
     def quit(self):
         sys.exit()
-     
-    def walking_to_castle(self, current_time):
-        """State when Mario walks to the castle to end the level"""
-        self.max_x_vel = 5
-        self.x_accel = c.SMALL_ACCEL
-
-        if self.x_vel < self.max_x_vel:
-            self.x_vel += self.x_accel
-
-        if (self.walking_timer == 0 or (current_time - self.walking_timer) > 200):
-            self.walking_timer = current_time
-
-        elif (current_time - self.walking_timer) > \
-                self.calculate_animation_speed():
-            if self.frame_index < 3:
-                self.frame_index += 1
-            else:
-                self.frame_index = 1
-            self.walking_timer = current_time
-
-
-    def falling_at_end_of_level(self, *args):
-        """State when Mario is falling from the flag pole base"""
-        self.y_vel += c.GRAVITY
-
-class Goomba(Enemy):
-
-    def __init__(self, x, y, direction, name):
-        Enemy.__init__(self)
-        self.setup_enemy(x, y, direction, name, self.setup_frames)
-     
-class Koopa(Enemy):
-
-    def __init__(self, x, y, direction, name):
-        Enemy.__init__(self)
-        self.setup_enemy(x, y, direction, name, self.setup_frames)
 
 
 if __name__ == "__main__":
