@@ -191,8 +191,6 @@ class Game(object):
         self.collide_group = pg.sprite.Group(self.ground_group,
                                              self.pipe_group,
                                              self.step_group)
-        self.background = setup.GFX['level_1']
-        self.back_rect = self.background.get_rect()
         self.back_rect.x = 0
         self.back_rect.y = 0
         self.background = pg.transform.scale(self.background,
@@ -226,6 +224,7 @@ class Game(object):
                 self.y_vel = self.jump_vel
         else:
             self.state = c.STAND
+            
 
     def walking(self, keys, current_time):
         """It changes the frame, checks for holding down the run button,
@@ -243,9 +242,33 @@ class Game(object):
         self.gravity = c.JUMP_GRAVITY
         self.y_vel += self.gravity
     
-    def check_to_allow_jump(self, keys):
-        if not keys[pg.K_a]:
-            self.allow_jump = True        
+    def setup_checkpoints(self):
+        self.check_point1 = False
+        self.check_point2 = False
+        self.check_point3 = False
+        self.check_point4 = False
+        self.check_point5 = False
+        self.check_point6 = False
+    
+    def create_countdown_clock(self):
+        """Creates the count down clock for the level"""
+        self.count_down_images = []
+        self.create_label(self.count_down_images, str(self.time), 645, 50)
+
+
+    def create_label(self, label_list, string, x, y):
+        """Creates a label (WORLD, TIME, MARIO)"""
+        for letter in string:
+            label_list.append(Character(self.image_dict[letter]))
+
+        self.set_label_rects(label_list, x, y)
+
+
+    def set_label_rects(self, label_list, x, y):
+        """Set the location of each individual character"""
+        for i, letter in enumerate(label_list):
+            letter.rect.x = x + ((letter.rect.width + 3) * i)
+            letter.rect.y = y       
     def run(self):
         print "Beginning run sequence."
         # The main game loop
@@ -302,50 +325,9 @@ class Game(object):
                 self.draw()
             #actually flip Surface buffer
             pygame.display.flip()
-            
-    def setup_enemy(self, x, y, direction, name, setup_frames):
-        self.sprite_sheet = setup.GFX['smb_enemies_sheet']
-        self.frames = []
-        self.frame_index = 0
 
     def quit(self):
         sys.exit()
-     
-    def walking_to_castle(self, current_time):
-        """State when Mario walks to the castle to end the level"""
-        self.max_x_vel = 5
-        self.x_accel = c.SMALL_ACCEL
-
-        if self.x_vel < self.max_x_vel:
-            self.x_vel += self.x_accel
-
-        if (self.walking_timer == 0 or (current_time - self.walking_timer) > 200):
-            self.walking_timer = current_time
-
-        elif (current_time - self.walking_timer) > \
-                self.calculate_animation_speed():
-            if self.frame_index < 3:
-                self.frame_index += 1
-            else:
-                self.frame_index = 1
-            self.walking_timer = current_time
-
-
-    def falling_at_end_of_level(self, *args):
-        """State when Mario is falling from the flag pole base"""
-        self.y_vel += c.GRAVITY
-
-class Goomba(Enemy):
-
-    def __init__(self, x, y, direction, name):
-        Enemy.__init__(self)
-        self.setup_enemy(x, y, direction, name, self.setup_frames)
-     
-class Koopa(Enemy):
-
-    def __init__(self, x, y, direction, name):
-        Enemy.__init__(self)
-        self.setup_enemy(x, y, direction, name, self.setup_frames)
 
 
 if __name__ == "__main__":
